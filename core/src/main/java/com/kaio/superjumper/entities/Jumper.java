@@ -1,26 +1,18 @@
 package com.kaio.superjumper.entities;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
+import com.kaio.superjumper.model.Shape;
 
 public class Jumper extends AbstractGameObject {
-    private final TextureRegion texture;
-    private final float velocity;
+    private final float velocity = 10;
 
-    public Jumper(TextureRegion texture, Rectangle rect, float velocity) {
-        super(rect);
-        this.texture = texture;
-        this.velocity = velocity;
+    public Jumper(Texture spriteSheet) {
+        super(new Shape(0, 0, 0, 0), new TextureRegion(spriteSheet));
     }
 
     public float getVelocity() {
         return velocity;
-    }
-
-    @Override
-    public void renderObject(SpriteBatch batch) {
-        batch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
 }

@@ -1,36 +1,16 @@
 package com.kaio.superjumper.entities;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.kaio.superjumper.interfaces.IObjectRenderer;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.kaio.superjumper.model.Shape;
 
-public abstract class AbstractGameObject implements IObjectRenderer {
-    private final Rectangle rect;
+public abstract class AbstractGameObject extends Sprite {
 
-    protected AbstractGameObject(Rectangle rect) {
-        this.rect = rect;
+    protected AbstractGameObject(Shape shape, TextureRegion texture) {
+        super(texture);
+        this.setPosition(shape.getX(), shape.getY());
+        this.setSize(shape.getWidth(), shape.getHeight());
+
     }
 
-    public Rectangle getRect() {
-        return rect;
-    }
-
-    public float getX() {
-        return rect.getX();
-    }
-
-    public float getY() {
-        return rect.getY();
-    }
-
-    public float getWidth() {
-        return rect.getWidth();
-    }
-
-    public float getHeight() {
-        return rect.getHeight();
-    }
-
-    public boolean checkCollision(AbstractGameObject other) {
-        return this.rect.overlaps(other.getRect());
-    }
 }
