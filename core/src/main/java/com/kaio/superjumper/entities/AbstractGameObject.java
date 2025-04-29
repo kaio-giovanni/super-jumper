@@ -20,4 +20,8 @@ public abstract class AbstractGameObject extends Sprite {
 
     public abstract void update(float deltaTime);
 
+    public boolean checkCollision(AbstractGameObject other) {
+        return this.getBoundingRectangle().overlaps(other.getBoundingRectangle());
+    }
+
 }
