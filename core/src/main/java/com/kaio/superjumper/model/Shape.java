@@ -1,7 +1,5 @@
 package com.kaio.superjumper.model;
 
-import com.badlogic.gdx.math.Rectangle;
-
 public class Shape {
 
     private float x;
@@ -48,7 +46,13 @@ public class Shape {
         this.height = height;
     }
 
-    public Rectangle toRect() {
-        return new Rectangle(x, y, width, height);
+    @Override
+    public String toString() {
+        return "Shape{" +
+            "x=" + x +
+            ", y=" + y +
+            ", width=" + width +
+            ", height=" + height +
+            '}';
     }
 }

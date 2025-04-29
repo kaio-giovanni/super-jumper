@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -16,11 +15,11 @@ import com.kaio.superjumper.config.Config;
 
 public class MenuScreen extends AbstractScreen {
     private final TextureRegion background;
-    private final ImageButton playBtn;
     private final Stage screenStage;
 
     public MenuScreen(Game game, SpriteBatch batch, Texture spriteSheet) {
         super(game, batch, spriteSheet);
+        Gdx.app.log("MenuScreen", "Starting Menu Screen");
         this.background = new TextureRegion(spriteSheet, 4628, 0, 640, 1024);
 
         this.screenStage = new Stage(viewport, batch);
@@ -30,22 +29,19 @@ public class MenuScreen extends AbstractScreen {
         style.imageUp = new TextureRegionDrawable(new TextureRegion(spriteSheet, 1036, 0, 222, 80));
         style.imageDown = new TextureRegionDrawable(new TextureRegion(spriteSheet, 1258, 0, 222, 80));
 
-        this.playBtn = new ImageButton(style);
-        this.playBtn.setSize(220, 80); // Set size
-        this.playBtn.setPosition(150, 80); // Set position
-        this.playBtn.addListener(new ClickListener(Input.Buttons.LEFT) {
+        final ImageButton playBtn = new ImageButton(style);
+        playBtn.setSize(220, 80);
+        playBtn.setPosition(150, 80);
+        playBtn.addListener(new ClickListener(Input.Buttons.LEFT) {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Execute action when clicked
-                Gdx.app.log("clicked", "(" + x + ", " + y + ")");
+                Gdx.app.debug("MouseEvent", "PlayButton clicked pos(" + x + ", " + y + ")");
+                hide();
+                dispose();
+                setScreen(new GameScreen(game, batch, spriteSheet));
             }
         });
         screenStage.addActor(playBtn);
-    }
-
-    @Override
-    protected void mouseButtonPressed(Vector3 clickedPoint) {
-        // handle mouse button pressed in the screen
     }
 
     @Override
