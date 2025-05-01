@@ -16,9 +16,6 @@ jobs:
           ./gradlew clean html:dist
       - name: Upload artifact
         uses: actions/upload-artifact@v3
-        with:
-          name: static-site
-          path: ./html/build/dist
         id: build
   deploy:
     runs-on: ubuntu-latest
