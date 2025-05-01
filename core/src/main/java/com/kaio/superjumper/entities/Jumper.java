@@ -13,14 +13,10 @@ import java.util.Map;
 public class Jumper extends AbstractGameObject {
 
     // --- Physics Constants ---
-    public static final Vector2 GRAVITY = new Vector2(0, -150);
-    // Max time holding jump adds height (seconds).
-    public static final float MAX_JUMP_DURATION = 0.20f;
-    // Initial upward speed. Adjust!
-    public static final float JUMP_START_VELOCITY = 250.0f;
-    // Terminal velocity downwards.
-    public static final float MAX_FALL_SPEED = -400.0f;
-    // Optional: Horizontal movement speed
+    public static final Vector2 GRAVITY = new Vector2(0, -250);
+    public static final float MAX_JUMP_DURATION = 1.4f;
+    public static final float JUMP_START_VELOCITY = 360.0f;
+    public static final float MAX_FALL_SPEED = -450.0f;
     public static final float MOVE_SPEED = 5.0f;
 
     // --- State Variables ---
@@ -31,7 +27,7 @@ public class Jumper extends AbstractGameObject {
     private final Map<String, TextureRegion> clips;
 
     public Jumper(Texture spriteSheet) {
-        super(new Shape(250f, 470f, 62, 60),
+        super(new Shape(10, 370f, 62, 60),
             new TextureRegion(spriteSheet, 2702, 30, 92, 90));
         this.clips = this.getPlayerClips(spriteSheet);
         this.currentState = JumperStateEnum.FALLING;
@@ -120,10 +116,6 @@ public class Jumper extends AbstractGameObject {
     }
 
     private void updatePosition(float deltaTime) {
-        if (getY() <= 5) { // jumping
-            jump();
-        }
-
         if (currentState == JumperStateEnum.JUMPING) {
             jumpTimer += deltaTime;
 
@@ -152,6 +144,10 @@ public class Jumper extends AbstractGameObject {
 
         if (position.x >= Config.SCREEN_WIDTH) {
             position.sub(Config.SCREEN_WIDTH, 0);
+        }
+
+        if (position.y < 1) { // game over
+            position.y = 1; // development only
         }
 
         this.setPosition(position.x, position.y);

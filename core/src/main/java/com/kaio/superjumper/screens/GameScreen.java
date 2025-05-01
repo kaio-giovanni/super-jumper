@@ -17,15 +17,16 @@ public class GameScreen extends AbstractScreen {
     protected GameScreen(Game game, SpriteBatch batch, Texture spriteSheet) {
         super(game, batch, spriteSheet);
         Gdx.app.log("MenuScreen", "Starting Game Screen");
-        this.background = new TextureRegion(spriteSheet, 1982, 0, 641, 1024);
+        this.background = new TextureRegion(spriteSheet, 531, 155, 532, 850);
         this.batch = batch;
-        this.world = new World(spriteSheet);
+        this.world = new World(camera, spriteSheet);
         this.world.generateLevel();
     }
 
     @Override
     protected void drawBackground(SpriteBatch batch) {
-        batch.draw(background, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+        float posY = getCameraPosition().y;
+        batch.draw(background, 0, posY - (viewport.getWorldHeight() / 2), Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     }
 
     @Override
