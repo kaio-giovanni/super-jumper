@@ -21,6 +21,7 @@ public class World extends AbstractWorld {
     private final Jumper player;
     private final List<Platform> platforms;
     private final Random random;
+    private float score;
 
     public World(OrthographicCamera camera, Texture spriteSheet) {
         super(camera);
@@ -28,6 +29,11 @@ public class World extends AbstractWorld {
         this.player = new Jumper(spriteSheet);
         this.platforms = new ArrayList<>();
         this.random = new Random();
+        this.score = 0;
+    }
+
+    public float getScore() {
+        return score;
     }
 
     private void movePlayer() {
@@ -104,15 +110,13 @@ public class World extends AbstractWorld {
 
     @Override
     public void update(float deltaTime, SpriteBatch batch) {
-        if (getWorldState().equals(WorldStateEnum.RUNNING)) {
-            movePlayer();
-            player.update(deltaTime);
-            if (player.getY() >= getCameraPosition().y + 150) {
-                this.translateCameraY(100 * deltaTime);
-            }
+        movePlayer();
+        player.update(deltaTime);
+        if (player.getY() >= getCameraPosition().y + 150) {
+            this.translateCameraY(100 * deltaTime);
+            this.score += deltaTime;
         }
 
-        // only for development
         if (isPointOutOfCameraView(200, player.getY() + 10)) {
             setWorldState(WorldStateEnum.GAME_OVER);
         }

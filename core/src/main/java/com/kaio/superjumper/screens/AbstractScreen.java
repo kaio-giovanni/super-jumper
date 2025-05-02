@@ -13,8 +13,8 @@ import com.kaio.superjumper.config.Config;
 
 public abstract class AbstractScreen extends ScreenAdapter {
 
-    private final Game game;
-    private final SpriteBatch batch;
+    protected final Game game;
+    protected final SpriteBatch batch;
     protected final Texture spriteSheet;
     protected final OrthographicCamera camera;
     protected final Viewport viewport;

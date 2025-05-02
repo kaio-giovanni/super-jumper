@@ -34,7 +34,7 @@ public abstract class AbstractWorld {
         this.worldState = worldState;
     }
 
-    protected WorldStateEnum getWorldState() {
+    public WorldStateEnum getWorldState() {
         return worldState;
     }
 

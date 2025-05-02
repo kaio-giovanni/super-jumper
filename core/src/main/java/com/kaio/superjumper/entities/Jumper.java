@@ -14,8 +14,8 @@ public class Jumper extends AbstractGameObject {
 
     // --- Physics Constants ---
     public static final Vector2 GRAVITY = new Vector2(0, -250);
-    public static final float MAX_JUMP_DURATION = 1.4f;
-    public static final float JUMP_START_VELOCITY = 360.0f;
+    public static final float MAX_JUMP_DURATION = 1.2f;
+    public static final float JUMP_START_VELOCITY = 340.0f;
     public static final float MAX_FALL_SPEED = -450.0f;
     public static final float MOVE_SPEED = 5.0f;
 
@@ -119,8 +119,7 @@ public class Jumper extends AbstractGameObject {
         if (currentState == JumperStateEnum.JUMPING) {
             jumpTimer += deltaTime;
 
-            // keep the sprite in the kneeling position for 6 frames
-            if (jumpAnimationStarted && jumpTimer > deltaTime * 3 && jumpTimer <= deltaTime * 6) {
+            if (jumpAnimationStarted && jumpTimer > deltaTime * 4 && jumpTimer <= deltaTime * 12) {
                 resetJumpAnimation();
             }
 
@@ -144,10 +143,6 @@ public class Jumper extends AbstractGameObject {
 
         if (position.x >= Config.SCREEN_WIDTH) {
             position.sub(Config.SCREEN_WIDTH, 0);
-        }
-
-        if (position.y < 1) { // game over
-            position.y = 1; // development only
         }
 
         this.setPosition(position.x, position.y);
