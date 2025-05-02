@@ -40,7 +40,7 @@ public class GameOverScreen extends AbstractScreen {
         title.setPosition(235, 500);
         title.setAlignment(Align.center);
 
-        String formattedScore = Utils.formatNumber(score);
+        float formattedScore = Utils.formatNumber(score);
         Label subtitle = new Label("Your Score: " + formattedScore, subtitleLabelStyle);
         subtitle.setSize(50, 50);
         subtitle.setPosition(235, 430);
