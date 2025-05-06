@@ -5,11 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.kaio.superjumper.config.Config;
+import com.kaio.superjumper.entities.platforms.BluePlatform;
+import com.kaio.superjumper.entities.platforms.GreenPlatform;
+import com.kaio.superjumper.entities.platforms.RedPlatform;
 import com.kaio.superjumper.enums.WorldStateEnum;
-import com.kaio.superjumper.model.Shape;
+import com.kaio.superjumper.interfaces.IPlatform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class World extends AbstractWorld {
 
     private final Texture spriteSheet;
     private final Jumper player;
-    private final List<Platform> platforms;
+    private final List<IPlatform> platforms;
     private final Random random;
     private float score;
 
@@ -44,25 +45,28 @@ public class World extends AbstractWorld {
         }
     }
 
-    private void updatePlatforms(SpriteBatch batch) {
+    private void updatePlatforms(float deltaTime, SpriteBatch batch) {
         float cameraPosY = getCameraPosition().y;
-        for (Platform p : platforms) {
-            p.draw(batch);
-            if (playerHitPlatform(p)) {
+        for (IPlatform p : platforms) {
+            AbstractGameObject platform = p.getSprite();
+            platform.update(deltaTime);
+            if (playerHitPlatform(platform)) {
                 player.jump();
             }
-            if (p.getY() < cameraPosY && isPointOutOfCameraView(p.getX(), p.getY() + p.getHeight())) {
-                float newPosX = random.nextInt(400);
-                p.setPosition(newPosX, cameraPosY + Config.SCREEN_HEIGHT / 2);
+            if (platform.getY() < cameraPosY &&
+                isPointOutOfCameraView(200, platform.getY() + platform.getHeight())) {
+                boolean isStatic = p.isStaticPlatform();
+                float newPosX = isStatic ? random.nextInt(400) : random.nextInt(340);
+                platform.setPos(newPosX, cameraPosY + Config.SCREEN_HEIGHT / 2);
             }
+            p.renderPlatform(batch);
         }
     }
 
-    private boolean playerHitPlatform(Platform platform) {
-        Rectangle platformRec = platform.getBoundingRectangle();
+    private boolean playerHitPlatform(AbstractGameObject gameObject) {
         return player.isFalling() &&
-            platformRec.getY() + platformRec.getHeight() >= player.getY() &&
-            platform.getY() < player.getY() && player.checkCollision(platform);
+            gameObject.getY() + gameObject.getHeight() >= player.getY() &&
+            gameObject.getY() < player.getY() && player.checkCollision(gameObject.getBoundingRectangle());
     }
 
     @Override
@@ -92,20 +96,11 @@ public class World extends AbstractWorld {
 
     @Override
     public void generateLevel() {
-        this.platforms.add(new Platform(new Shape(10f, 180f, 114, 30),
-            new TextureRegion(spriteSheet, 5472, 2, 114, 30)));
-
-        this.platforms.add(new Platform(new Shape(150f, 340f, 114, 30),
-            new TextureRegion(spriteSheet, 5472, 36, 114, 30)));
-
-        this.platforms.add(new Platform(new Shape(300f, 500f, 114, 30),
-            new TextureRegion(spriteSheet, 5472, 513, 114, 30)));
-
-        this.platforms.add(new Platform(new Shape(380, 660, 114, 30),
-            new TextureRegion(spriteSheet, 5472, 2, 114, 30)));
-
-        this.platforms.add(new Platform(new Shape(80, 820, 114, 30),
-            new TextureRegion(spriteSheet, 5472, 36, 114, 30)));
+        this.platforms.add(new GreenPlatform(spriteSheet, 10f, 180f));
+        this.platforms.add(new BluePlatform(spriteSheet, 150f, 340f));
+        this.platforms.add(new RedPlatform(spriteSheet, 300f, 500f));
+        this.platforms.add(new GreenPlatform(spriteSheet, 380f, 660f));
+        this.platforms.add(new BluePlatform(spriteSheet, 80f, 820f));
     }
 
     @Override
@@ -121,7 +116,7 @@ public class World extends AbstractWorld {
             setWorldState(WorldStateEnum.GAME_OVER);
         }
         batch.begin();
-        updatePlatforms(batch);
+        updatePlatforms(deltaTime, batch);
         player.draw(batch);
         batch.end();
     }

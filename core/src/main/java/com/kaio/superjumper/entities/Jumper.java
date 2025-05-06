@@ -17,7 +17,7 @@ public class Jumper extends AbstractGameObject {
     public static final float MAX_JUMP_DURATION = 1.2f;
     public static final float JUMP_START_VELOCITY = 340.0f;
     public static final float MAX_FALL_SPEED = -450.0f;
-    public static final float MOVE_SPEED = 5.0f;
+    public static final float MOVE_SPEED = 8.0f;
 
     // --- State Variables ---
     private float jumpTimer = 0.0f;
