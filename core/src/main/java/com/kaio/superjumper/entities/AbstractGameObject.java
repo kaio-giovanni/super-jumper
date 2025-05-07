@@ -30,4 +30,8 @@ public abstract class AbstractGameObject extends Sprite {
         return this.getBoundingRectangle().overlaps(other);
     }
 
+    public void dispose() {
+        this.getTexture().dispose();
+    }
+
 }

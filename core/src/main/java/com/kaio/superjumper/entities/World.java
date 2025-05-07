@@ -11,6 +11,7 @@ import com.kaio.superjumper.entities.platforms.GreenPlatform;
 import com.kaio.superjumper.entities.platforms.RedPlatform;
 import com.kaio.superjumper.enums.WorldStateEnum;
 import com.kaio.superjumper.interfaces.IPlatform;
+import com.kaio.superjumper.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,11 +72,6 @@ public class World extends AbstractWorld {
 
     @Override
     protected boolean keydown(int keyCode) {
-        if (keyCode == Input.Keys.SPACE) {
-            player.shoot();
-            return true;
-        }
-
         if (keyCode == Input.Keys.RIGHT) {
             player.moveRight();
             return true;
@@ -99,8 +95,8 @@ public class World extends AbstractWorld {
         this.platforms.add(new GreenPlatform(spriteSheet, 10f, 180f));
         this.platforms.add(new BluePlatform(spriteSheet, 150f, 340f));
         this.platforms.add(new RedPlatform(spriteSheet, 300f, 500f));
-        this.platforms.add(new GreenPlatform(spriteSheet, 380f, 660f));
-        this.platforms.add(new BluePlatform(spriteSheet, 80f, 820f));
+        this.platforms.add(new RedPlatform(spriteSheet, 380f, 660f));
+        this.platforms.add(new GreenPlatform(spriteSheet, 80f, 820f));
     }
 
     @Override
@@ -109,7 +105,7 @@ public class World extends AbstractWorld {
         player.update(deltaTime);
         if (player.getY() >= getCameraPosition().y + 150) {
             this.translateCameraY(100 * deltaTime);
-            this.score += deltaTime;
+            score = Utils.formatNumber(score + deltaTime);
         }
 
         if (isPointOutOfCameraView(200, player.getY() + 10)) {

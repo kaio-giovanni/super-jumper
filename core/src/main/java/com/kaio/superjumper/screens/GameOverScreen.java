@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.kaio.superjumper.config.Config;
-import com.kaio.superjumper.utils.Utils;
 
 public class GameOverScreen extends AbstractScreen {
 
@@ -40,8 +39,7 @@ public class GameOverScreen extends AbstractScreen {
         title.setPosition(235, 500);
         title.setAlignment(Align.center);
 
-        float formattedScore = Utils.formatNumber(score);
-        Label subtitle = new Label("Your Score: " + formattedScore, subtitleLabelStyle);
+        Label subtitle = new Label("Your Score: " + score, subtitleLabelStyle);
         subtitle.setSize(50, 50);
         subtitle.setPosition(235, 430);
         subtitle.setAlignment(Align.center);

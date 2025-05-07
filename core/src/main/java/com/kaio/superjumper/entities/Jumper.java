@@ -1,5 +1,6 @@
 package com.kaio.superjumper.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -87,30 +88,34 @@ public class Jumper extends AbstractGameObject {
     }
 
     private void jumpAnimation() {
-        if (currentAction == JumperActionStateEnum.TURNING_LEFT) {
-            setClip("LEFT_KNEELING");
-        }
-
-        if (currentAction == JumperActionStateEnum.TURNING_RIGHT) {
-            setClip("RIGHT_KNEELING");
-        }
-
-        if (currentAction == JumperActionStateEnum.SHOOTING) {
-            setClip("SHOOT_KNEELING");
+        switch (currentAction) {
+            case TURNING_LEFT:
+                setClip("LEFT_KNEELING");
+                break;
+            case TURNING_RIGHT:
+                setClip("RIGHT_KNEELING");
+                break;
+            case SHOOTING:
+                setClip("SHOOT_KNEELING");
+                break;
+            default:
+                Gdx.app.error("Jumper", "Invalid jumper state");
         }
     }
 
     private void resetJumpAnimation() {
-        if (currentAction == JumperActionStateEnum.TURNING_LEFT) {
-            setClip("LEFT_STANDING");
-        }
-
-        if (currentAction == JumperActionStateEnum.TURNING_RIGHT) {
-            setClip("RIGHT_STANDING");
-        }
-
-        if (currentAction == JumperActionStateEnum.SHOOTING) {
-            setClip("SHOOT_STANDING");
+        switch (currentAction) {
+            case TURNING_LEFT:
+                setClip("LEFT_STANDING");
+                break;
+            case TURNING_RIGHT:
+                setClip("RIGHT_STANDING");
+                break;
+            case SHOOTING:
+                setClip("SHOOT_STANDING");
+                break;
+            default:
+                Gdx.app.error("Jumper", "Invalid jumper state");
         }
         jumpAnimationStarted = false;
     }
